@@ -1,23 +1,8 @@
-
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:grandma/phrases.dart';
 import 'package:speech_bubble/speech_bubble.dart';
 import 'bubble_text.dart';
-
-final buttonTexts = [
-  "hachoo",
-  "*cough*",
-  "hapchooo",
-  "*sneeze*"
-];
-
-var buttonText = "hachoo";
-void chooseRandomButtonText() {
-  final _random = new Random();
-  int randomIndex = _random.nextInt(buttonTexts.length);
-  buttonText = buttonTexts[randomIndex];
-}
+import 'edit_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -70,6 +55,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   }
 
   grandmaPressed(_controller) {
+    if (phrases.isEmpty) {
+      return;
+    }
     if (_controller.isAnimating) {
 //      _controller.stop(canceled: true);
     } else if (_controller.status == AnimationStatus.completed) {
@@ -86,6 +74,14 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.edit),
+            onPressed: () {
+              Navigator.of(context).push(createRoute(EditPage()));
+            },
+          )
+        ],
       ),
       body: Center(
         child: Column(
@@ -119,3 +115,5 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     );
   }
 }
+
+
